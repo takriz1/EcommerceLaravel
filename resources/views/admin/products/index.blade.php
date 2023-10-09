@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/img/favicons/favicon-16x16.png">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicons/favicon.ico">
-    <link rel="manifest" href="assets/img/favicons/manifest.json">
+    <link rel="manifest" href="{{ asset('dashassets/img/favicons/manifest.json') }}" >
     <meta name="msapplication-TileImage" content="assets/img/favicons/mstile-150x150.png">
     <meta name="theme-color" content="#ffffff">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -64,12 +64,14 @@
                                         <td>{{ $p->description }}</td>
                                         <td>{{ $p->price }}</td>
                                         <td>{{ $p->qtt }}</td>
-                                        <td>{{ $p->image }}</td>
+                                        <td>
+                                        <img src="{{ asset('uploads') }}/{{ $p->image }}" width="150" alt="">
+                                        </td>
                                         <td>
                                             <a h data-bs-toggle="modal"
-                                            data-bs-target="#editCategory{{ $p->id }}" class="btn btn-success">Modifier</a>
+                                            data-bs-target="#editProduct{{ $p->id }}" class="btn btn-success">Modifier</a>
                                             <a onclick="return confirm('voulez vous vraiment supprimer cette categorie?')"
-                                                href="/admin/category/{{ $p->id }}/destroy"
+                                                href="/admin/product/{{ $p->id }}/destroy"
                                                 class="btn btn-danger">Supprimer</a>
 
                                         </td>
@@ -118,6 +120,23 @@
                 <form action="/admin/product/add" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
+
+
+                        <div class="mb-3"><label class="form-label" for="exampleFormControlInput1">Categorie Produit</label>
+                           <select name="categorie" class="form-control">
+                            @foreach ($categories as $c )
+                          <option value="{{ $c->id }}">{{ $c->name }}</option>
+                          @endforeach
+                           </select>
+
+                            @error('name')
+                                <div class="alert alert-danger">
+                                    {{ $message }}
+
+                                </div>
+                            @enderror
+                        </div>
+
 
                         <div class="mb-3"><label class="form-label" for="exampleFormControlInput1">name</label>
                             <input name="name" class="form-control" id="exampleFormControlInput1" type="text"
@@ -179,6 +198,94 @@
             </div>
         </div>
     </div>
+
+    @foreach ($products as $index => $p)
+
+       <!-- Modal Edit -->
+       <div class="modal fade" id="editProduct{{ $p->id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+       aria-hidden="true">
+       <div class="modal-dialog">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title" id="exampleModalLabel">Modifier Produit</h5><button class="btn p-1"
+                       type="button" data-bs-dismiss="modal" aria-label="Close"><svg
+                           class="svg-inline--fa fa-times fa-w-11 fs--1" aria-hidden="true" focusable="false"
+                           data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg"
+                           viewBox="0 0 352 512" data-fa-i2svg="">
+                           <path fill="currentColor"
+                               d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z">
+                           </path>
+                       </svg><!-- <span class="fas fa-times fs--1"></span> Font Awesome fontawesome.com --></button>
+
+               </div>
+               <form action="/admin/product/update" method="post" enctype="multipart/form-data">
+                   @csrf
+                   <div class="modal-body">
+
+                    <input type="hidden"  name="idproduit" value="{{$p->id}}">
+
+                       <div class="mb-3"><label class="form-label" for="exampleFormControlInput1">name</label>
+                           <input name="name" class="form-control" id="exampleFormControlInput1" type="text" value="{{$p->name}}"
+                               placeholder="Product name">
+                           @error('name')
+                               <div class="alert alert-danger">
+                                   {{ $message }}
+
+                               </div>
+                           @enderror
+                       </div>
+                       <div class="mb-0"><label class="form-label" for="exampleTextarea">Description</label>
+                           <textarea name="description" class="form-control" id="exampleTextarea" rows="3">{{ $p->description }}</textarea>
+                           @error('description')
+                               <div class="alert alert-danger">
+                                   {{ $message }}
+
+                               </div>
+                           @enderror
+                       </div>
+                       <div class="mb-3"><label class="form-label" for="exampleFormControlInput1">Price</label>
+                           <input name="price" class="form-control" id="exampleFormControlInput1" type="number" value="{{ $p->price }}"
+                               placeholder="Product Price">
+                           @error('price')
+                               <div class="alert alert-danger">
+                                   {{ $message }}
+
+                               </div>
+                           @enderror
+                       </div>
+                       <div class="mb-3"><label class="form-label" for="exampleFormControlInput1">Quantité</label>
+                           <input name="qtt" class="form-control" id="exampleFormControlInput1" type="number" value="{{$p->qtt}}"
+                               placeholder="product qtt">
+                           @error('qtt')
+                               <div class="alert alert-danger">
+                                   {{ $message }}
+
+                               </div>
+                           @enderror
+                       </div>
+                       <div class="mb-3"><label class="form-label" for="exampleFormControlInput1">image</label>
+                           <input name="image" class="form-control" id="exampleFormControlInput1" type="file"
+                               placeholder="">
+                           @error('image')
+                               <div class="alert alert-danger">
+                                   {{ $message }}
+
+                               </div>
+                           @enderror
+                       </div>
+                       <img src="{{asset('uploads')}}/{{$p->image}}" width="100">
+
+                   </div>
+                   <div class="modal-footer"><button class="btn btn-primary" type="submit">Modifier</button>
+                       <button class="btn btn-outline-primary" type="button"
+                           data-bs-dismiss="modal">Cancel</button>
+                   </div>
+               </form>
+
+           </div>
+       </div>
+   </div>
+   @endforeach
     <script src="{{ asset('dashassets/js/phoenix.js') }}"></script>
     <script src="{{ asset('dashassets/js/ecommerce-dashboard.js') }}"></script>
 </body>
