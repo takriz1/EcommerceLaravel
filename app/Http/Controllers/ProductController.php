@@ -85,6 +85,24 @@ class ProductController extends Controller
             echo "error";
         }
     }
+    public function search(Request $request){
+        if($request->product_name && !$request->qte){
+            $products = Product::where('name' , 'LIKE' , '%'. $request->product_name .'%')->get();
+        }
+         if(!$request->product_name && $request->qte){
+            $products = Product::where('qtt' , '>=' , $request->qte)->get();
+        }
+        if($request->product_name && $request->qte){
+            $products = Product::where('name' , 'LIKE' , '%'. $request->product_name .'%')
+                                ->where('qtt' , '>=' , $request->qte)->get();
+        }
+        if(!$request->product_name && !$request->qte){
+            $products = Product::all();
+        }
+
+        $categories = Category::all();
+        return view('admin.products.index')->with('products', $products)->with('categories', $categories);
+     }
 
 
 }

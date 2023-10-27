@@ -12,14 +12,17 @@
                                     data-feather="cast"></span></span><span
                                 class="nav-link-text">Products</span></div>
                     </a></li>
-                    <li class="nav-item"><a class="nav-link active" href="index.html">
+                    <li class="nav-item"><a class="nav-link active" href="/admin/clients">
                         <div class="d-flex align-items-center"><span class="nav-link-icon"><span
                                     data-feather="cast"></span></span><span
                                 class="nav-link-text">Clients</span></div>
                     </a></li>
+                    <li class="nav-item"><a class="nav-link active" href="/admin/commandes">
+                        <div class="d-flex align-items-center"><span class="nav-link-icon"><span
+                                    data-feather="cast"></span></span><span
+                                class="nav-link-text">Commandes</span></div>
+                    </a></li>
         </div>
-        <div class="navbar-vertical-footer"><a class="btn btn-link border-0 fw-semi-bold d-flex ps-0"
-                href="#!"><span class="navbar-vertical-footer-icon"
-                    data-feather="log-out"></span><span>Settings</span></a></div>
+
     </div>
 </nav>

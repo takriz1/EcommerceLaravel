@@ -41,6 +41,24 @@
                 <div class="pb-5">
                     <div class="row g-5">
 
+                        <form action="/admin/product/search" method="POST">
+                            @csrf
+                                <div class="row mt-2">
+                                        <div class="col 5">
+                                <input
+                                    name="product_name" class="form-control form-control-sm search-input search min-h-auto" type="search"
+                                    placeholder="Search Product Name" aria-label="Search">
+                                </div>
+                                <div class="col 5">
+                                    <input
+                                    name="qte" class="form-control form-control-sm search-input search min-h-auto" type="number" min="0"
+                                    placeholder="Search Quantity" aria-label="Search">
+                                </div>
+                                <div class="col 2">
+                                    <button class="btn btn-success mt-2" type="submit" >Search</button>
+                                </div>
+                        </div>
+                    </form>
                         <button class="btn btn-primary" type="button" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">Ajouter Produits</button>
 

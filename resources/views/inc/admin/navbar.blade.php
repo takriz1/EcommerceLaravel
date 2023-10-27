@@ -12,12 +12,7 @@
             </div>
         </a></div>
     <div class="collapse navbar-collapse">
-        <div class="search-box d-none d-lg-block" style="width:25rem;">
-            <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input
-                    class="form-control form-control-sm search-input search min-h-auto" type="search"
-                    placeholder="Search..." aria-label="Search"> <span class="fas fa-search search-box-icon"></span>
-            </form>
-        </div>
+
         <ul class="navbar-nav navbar-nav-icons ms-auto flex-row">
             <li class="nav-item dropdown"><a class="nav-link" id="navbarDropdownNotification" href="#"
                     role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span

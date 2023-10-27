@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commande;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -27,4 +29,26 @@ class AdminController extends Controller
         return redirect('/admin/profile')->with('success','Profil Edited Successfully');
 
     }
+    public function clients(){
+        $clients = User::where('role','user')->get();
+        return view('admin.clients.index')->with('clients', $clients);
+    }
+    public function block($iduser){
+       $client = User::find($iduser);
+       $client->active = false;
+       $client->update();
+       return redirect()->back()->with('success','client blocked');
+    }
+    public function active($iduser){
+        $client = User::find($iduser);
+        $client->active = true;
+        $client->update();
+        return redirect()->back()->with('success','client activated');
+     }
+     public function commandes(){
+        $commande = Commande::all();
+        return view('admin.commandes.dashboard')->with('commande', $commande);
+     }
+
 }
+

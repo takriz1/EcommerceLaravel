@@ -87,21 +87,29 @@
 
 
             <div class="d-flex align-items-center mb-4 pt-2">
+                <form action="/client/order/store" method="POST">
+                    @csrf
+
                 <div class="input-group quantity mr-3" style="width: 130px;">
+                    <input type="hidden"  name="idproduct" value="{{$product->id}}">
+                    <input type="hidden"  name="price" value="{{$product->price}}" >
                     <div class="input-group-btn">
-                        <button class="btn btn-primary btn-minus" >
+                        <button  type="button" class="btn btn-primary btn-minus" >
                         <i class="fa fa-minus"></i>
                         </button>
                     </div>
-                    <input type="text" class="form-control bg-secondary text-center" value="1">
+                    <input type="text" class="form-control bg-secondary text-center" value="1" name="qte">
                     <div class="input-group-btn">
-                        <button class="btn btn-primary btn-plus">
+                        <button type="button" class="btn btn-primary btn-plus">
                             <i class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>
-                <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+                <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
+            </form>
+
             </div>
+
             <div class="d-flex pt-2">
                 <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
                 <div class="d-inline-flex">
@@ -126,7 +134,7 @@
             <div class="nav nav-tabs justify-content-center border-secondary mb-4">
                 <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
                 <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-2">Information</a>
-                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews (0)</a>
+                <a class="nav-item nav-link" data-toggle="tab" href="#tab-pane-3">Reviews ({{ count($product->reviews) }})</a>
             </div>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="tab-pane-1">
@@ -174,11 +182,14 @@
                 <div class="tab-pane fade" id="tab-pane-3">
                     <div class="row">
                         <div class="col-md-6">
-                            <h4 class="mb-4">1 review for "Colorful Stylish Shirt"</h4>
+                            @foreach ( $product->reviews as $review )
+
+
+                            <h4 class="mb-4">{{ count($product->reviews) }} Reviews For : {{ $review->product->name }}</h4>
                             <div class="media mb-4">
                                 <img src="img/user.jpg" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                                 <div class="media-body">
-                                    <h6>John Doe<small> - <i>01 Jan 2045</i></small></h6>
+                                    <h6>{{ $review->user->name }}<small> - <i>{{ $review->created_at }}</i></small></h6>
                                     <div class="text-primary mb-2">
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
@@ -186,22 +197,27 @@
                                         <i class="fas fa-star-half-alt"></i>
                                         <i class="far fa-star"></i>
                                     </div>
-                                    <p>Diam amet duo labore stet elitr ea clita ipsum, tempor labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
+                                    <p>{{ $review->content }}</p>
                                 </div>
                             </div>
+                            @endforeach
+
                         </div>
                         <div class="col-md-6">
                             <h4 class="mb-4">Leave a review</h4>
                             <small>Your email address will not be published. Required fields are marked *</small>
-                            <form>
+                            <form action="/client/review/store" method="POST">
+                                @csrf
+                                <input type="hidden" value="{{ $product->id }}" name="product_id">
+
                             <div class="form-group">
                                 <label for="message">Your Rating *</label>
-                                <input class="form-control" type="number" max="5" min="1">
+                                <input class="form-control" type="number" max="5" min="1" name="rate">
                             </div>
 
                                 <div class="form-group">
                                     <label for="message">Your Review *</label>
-                                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                    <textarea id="message" cols="30" rows="5" class="form-control" name="contenu"></textarea>
                                 </div>
 
 
